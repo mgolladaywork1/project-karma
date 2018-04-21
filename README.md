@@ -1,0 +1,1 @@
+Learning and doing Karma Test in dept.

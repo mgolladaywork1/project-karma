@@ -1,7 +1,7 @@
 // Karma configuration
 // Generated on Fri Apr 20 2018 22:13:05 GMT-0700 (Pacific Daylight Time)
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -10,13 +10,14 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine'],
+    frameworks: ['jasmine', 'fixture'],
 
 
     // list of files / patterns to load in the browser
     files: [
       'src/*.js',
-      'spec/**/*Spec.js'
+      'spec/**/*.spec.js',
+      'spec/**/*.fixture.html'
     ],
 
 
@@ -28,13 +29,20 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+      '**/*.html': ['html2js'],
+      '**/*.json': ['json_fixtures'],
+      'src/**/*.js': ['coverage']
     },
 
+    // regarding json preprocessing
+    jsonFixturesPreprocessor: {
+      variableName: '__json__'
+    },
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+    reporters: ['progress', 'coverage'],
 
 
     // web server port
@@ -56,7 +64,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+    browsers: ['PhantomJS'],
 
 
     // Continuous Integration mode

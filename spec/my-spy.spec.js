@@ -114,10 +114,71 @@ describe("spy, using fakecall", () => {
     it("fetchedGsd call Fake to be black", () => {
         expect(fetchedGsd).not.toEqual('sable');
         expect(fetchedGsd).toEqual('black');
-    })
-
-
-
+    });
 });
+
+describe("This spy is configured to throw an error", () => {
+    let cat, color;
+    beforeEach(() => {
+        cat = {
+            setColor: (value) => {
+                color = value;
+            }
+        };
+        spyOn(cat, "setColor").and.throwError("bright light");
+    });
+
+    it("throw the value", () => {
+        expect(() => {
+            cat.setColor("black")
+        }).toThrowError("bright light");
+    });
+});
+
+describe("a spy using callThrough and Stub", () => {
+    var foo, count = null;
+    beforeEach(function () {
+        foo = {
+            setCount: function (value) {
+                count = value;
+            }
+        };
+
+        spyOn(foo, 'setCount').and.callThrough();
+    });
+
+    it("call through and stub in this spec", () => {
+        foo.setCount(500);
+        expect(count).toEqual(500);
+
+        foo.setCount.and.stub();
+        count = null;
+
+        foo.setCount(345);
+        expect(count).toBe(null);
+    });
+});
+
+describe("test a spy calls", () => {
+    let foo, count = null;
+
+    beforeEach(() => {
+        foo = {
+            setCount: (value) => {
+                count = value;
+            }
+        };
+
+        spyOn(foo, 'setCount');
+    });
+
+    it("track that setCount is called", () => {
+        expect(foo.setCount.calls.any()).toEqual(false);
+        foo.setCount(1234);
+        expect(foo.setCount.calls.any()).toEqual(true);
+    });
+
+
+})
 
 
